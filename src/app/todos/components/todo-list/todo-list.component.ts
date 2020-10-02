@@ -10,27 +10,23 @@ import { TodosService } from '@app/todos/services/todos.service';
 })
 export class TodosListComponent {
 
-  todoList
   filteredTodoList
   subscription;
   inputText
+  size = false;
+
   constructor (
-    // private changeDetectorRef: ChangeDetectorRef,
     private todosService: TodosService,
   ) {}
 
   ngOnInit(): void {
-    this.todosService.allTodos$.subscribe(todos => {
-      this.todoList = todos
-      
-      // this.multipleTodosExist = todos && todos.length > 1;
-      // this.changeDetectorRef.markForCheck();
-    });
+
     this.todosService.filteredTodos$.subscribe(todos => {
 
-      // this.filteredTodoList = todos
       this.filteredTodoList = todos.map(obj=> ({ ...obj, Editing: 'false' }))
-      console.log(this.filteredTodoList)
+
+      console.log(this.filteredTodoList.length)
+      console.log(this.size)
     });
   }
 
