@@ -80,21 +80,6 @@ export function todosReducer(state: ITodosState, action: Action) {
 
 export const filterMode = (state: ITodosState) => state.filterMode;
 export const todos = (state: ITodosState) => state.todos;
-// export const filteredTodos = (state: ITodosState) => state.todos.filter(function(t){
-//   // console.log(state.filterMode)
-//   switch(state.filterMode){
-//     case 'All':
-//         return t
-//         break;
-//     case 'Active':
-//         return !t.completed
-//         break;
-//     case 'Completed':
-//     return t.completed
-//     break;
-//     default:
-//         return t
-//   }
-// });
+
 
 

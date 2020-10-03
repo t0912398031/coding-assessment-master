@@ -10,26 +10,21 @@ import { FILTER_MODES } from './todos/constants/filter-modes';
   templateUrl: './app.component.html',
 })
 export class AppComponent { 
-  // textfield = 'Hello'
+
   todo: ITodo = {text: '', completed: false}
-  // todos
-  // filteredts
+  todos
   filterMode?: FILTER_MODES;
+
   constructor (
     private todosService: TodosService,
   ) {
     
   }
   ngOnInit(): void {
-    // this.todosService.allTodos$.subscribe(todos => {
-    //   this.todos = todos
-    //   // console.log(todos)
-
-    // });
-    // this.todosService.filteredTodos$.subscribe(t=>{
-    //   this.filteredts = t 
-
-    // })
+    this.todosService.allTodos$.subscribe(todos => {
+      this.todos = todos
+      // console.log(todos)
+    });
   }
   
   addTodo() {

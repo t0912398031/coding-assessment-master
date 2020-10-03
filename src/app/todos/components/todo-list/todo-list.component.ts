@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { FILTER_MODES } from '@app/todos/constants/filter-modes';
 import { TodosService } from '@app/todos/services/todos.service';
 
@@ -10,14 +10,15 @@ import { TodosService } from '@app/todos/services/todos.service';
   templateUrl: './todo-list.component.html',
 })
 export class TodosListComponent {
+  currentTodo = null
   todos
   filteredTodoList
   size = false;
   filterMode?: FILTER_MODES = 'All'
 
-  constructor (
-    private todosService: TodosService,
-  ) {}
+  constructor (private todosService: TodosService) {
+
+  }
 
   filterTodos(t) {
     switch(this.filterMode){
@@ -34,6 +35,7 @@ export class TodosListComponent {
           return t
     }
   }
+  
   ngOnInit(): void {
     this.todosService.allTodos$.subscribe(todos => {
       let count = 0
@@ -64,11 +66,26 @@ export class TodosListComponent {
     let text = todo.text
     this.todosService.updateTodo(todo.index, text)
     todo.editing = false
+    this.currentTodo = null
   }
 
-
-  isEdit(t){
+  isEdit(t, event){
     t.editing = true 
+
+
+    this.currentTodo = t
+    // console.log(this.currentTodo)
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    if(!this.currentTodo) return
+    if (event.target == document.getElementById("todo"+this.currentTodo.index)){
+      // console.log('inside')
+    } else{
+      // console.log('outside')
+      this.updateTodo(this.currentTodo)
+    }
   }
   
 }

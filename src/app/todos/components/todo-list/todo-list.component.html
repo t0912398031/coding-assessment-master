@@ -1,7 +1,7 @@
 <ul class="todo-list">
   <li *ngIf="!filteredTodoList.length">
     <div class="view">
-      <label>Empty</label>
+      <label>No items found</label>
     </div>
   </li>
   
@@ -14,10 +14,10 @@
       <input class="toggle" type="checkbox" checked="true" (change)="toggleCompleted(i, todo)" *ngIf="todo.completed"/>
       <input class="toggle" type="checkbox" checked="false" (change)="toggleCompleted(i, todo)" *ngIf="!todo.completed"/>
 
-      <label (dblclick)="isEdit(todo)" >{{todo.text}}</label>
+      <label (dblclick)="isEdit(todo, $event)">{{todo.text}}</label>
       <button class="destroy" (click)="removeTodo(todo)"></button>
     </div>
-    <input class="edit" (keyup.enter)="updateTodo(todo)" [(ngModel)]="todo.text">
+    <input class="edit" (keyup.enter)="updateTodo(todo)" [(ngModel)]="todo.text" id="{{ 'todo' + todo.index }}">
   </li>
 </ul>
 

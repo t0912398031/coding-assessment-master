@@ -10,7 +10,7 @@
     <app-todos-list></app-todos-list>
   </section>
   <footer class="footer">
-    <span class="todo-count"></span>
+    <span class="todo-count">{{todos.length}} items left</span>
     <ul class="filters">
       <li>
         <a href="#" [ngClass]="{'selected': filterMode=='All'}" (click)="all()">All</a>
