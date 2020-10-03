@@ -53,10 +53,7 @@ export class AppComponent {
   onDocumentClick(event: MouseEvent) {
     if (event.target == document.getElementById("inputfield")){
       this.editing = true
-      // console.log('inside')
     } else{
-      // console.log('outside')
-      
       this.editing = false
       this.addTodo()
     }

@@ -43,7 +43,6 @@ export class TodosListComponent {
       // console.log(this.todos)
 
       this.filteredTodoList = this.todos.filter(t=>this.filterTodos(t))
-
     });
 
     this.todosService.filterMode$.subscribe(mode => {
@@ -71,8 +70,6 @@ export class TodosListComponent {
 
   isEdit(t, event){
     t.editing = true 
-
-
     this.currentTodo = t
     // console.log(this.currentTodo)
   }
