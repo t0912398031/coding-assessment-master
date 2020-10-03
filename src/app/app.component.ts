@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TodosService } from './todos/services/todos.service';
 import { FormControl } from '@angular/forms';
 import { ITodo } from './todos/interfaces';
-// import { runInThisContext } from 'vm';
+import { FILTER_MODES } from './todos/constants/filter-modes';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -10,44 +10,43 @@ import { ITodo } from './todos/interfaces';
   templateUrl: './app.component.html',
 })
 export class AppComponent { 
-  textfield = 'Hello'
+  // textfield = 'Hello'
   todo: ITodo = {text: '', completed: false}
-  todos
-  filteredts
+  // todos
+  // filteredts
+  filterMode?: FILTER_MODES;
   constructor (
     private todosService: TodosService,
   ) {
     
   }
   ngOnInit(): void {
-    this.todosService.allTodos$.subscribe(todos => {
-      this.todos = todos
-      // console.log(todos)
+    // this.todosService.allTodos$.subscribe(todos => {
+    //   this.todos = todos
+    //   // console.log(todos)
 
-    });
-    this.todosService.filteredTodos$.subscribe(t=>{
-      this.filteredts = t 
-      // console.log(this.filteredts)
-    }
-    )
+    // });
+    // this.todosService.filteredTodos$.subscribe(t=>{
+    //   this.filteredts = t 
 
-
-
+    // })
   }
   
-  addTodo(event) {
+  addTodo() {
     this.todosService.addTodo(this.todo.text)
     this.todo.text = ''
   }
   all(){
-    this.todosService.changeFilterMode('All')
+    this.filterMode = 'All'
+    this.todosService.changeFilterMode(this.filterMode)
   }
   active(){
-    this.todosService.changeFilterMode('Active')
+    this.filterMode = 'Active'
+    this.todosService.changeFilterMode(this.filterMode)
   }
   completed(){
-    this.todosService.changeFilterMode('Completed')
-    // console.log(this.filteredts)
+    this.filterMode = 'Completed'
+    this.todosService.changeFilterMode(this.filterMode)
   }
   clearCompleted(){
     this.todosService.clearCompleted()

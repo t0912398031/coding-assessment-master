@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FILTER_MODES } from '@app/todos/constants/filter-modes';
 import { TodosService } from '@app/todos/services/todos.service';
 
 @Component({
@@ -9,44 +10,65 @@ import { TodosService } from '@app/todos/services/todos.service';
   templateUrl: './todo-list.component.html',
 })
 export class TodosListComponent {
-
+  todos
   filteredTodoList
-  subscription;
-  inputText
   size = false;
+  filterMode?: FILTER_MODES = 'All'
 
   constructor (
     private todosService: TodosService,
   ) {}
 
+  filterTodos(t) {
+    switch(this.filterMode){
+      case 'All':
+          return t
+          break;
+      case 'Active':
+          return !t.completed
+          break;
+      case 'Completed':
+          return t.completed
+          break;
+      default:
+          return t
+    }
+  }
   ngOnInit(): void {
+    this.todosService.allTodos$.subscribe(todos => {
+      let count = 0
+      this.todos = todos.map(obj=> ({ ...obj, Editing: 'false', index: count++ }))
+      // console.log(this.todos)
 
-    this.todosService.filteredTodos$.subscribe(todos => {
+      this.filteredTodoList = this.todos.filter(t=>this.filterTodos(t))
 
-      this.filteredTodoList = todos.map(obj=> ({ ...obj, Editing: 'false' }))
-
-      console.log(this.filteredTodoList.length)
-      console.log(this.size)
     });
+
+    this.todosService.filterMode$.subscribe(mode => {
+      this.filterMode = mode
+      // console.log(this.filterMode)
+      this.filteredTodoList = this.todos.filter(t=>this.filterTodos(t))
+    });
+
   }
 
   toggleCompleted(index, todo){
     this.todosService.toggleComplete(index)
   }
 
-  removeTodo(i){
-    this.todosService.removeTodo(i)
+  removeTodo(todo){
+    this.todosService.removeTodo(todo.index)
   }
 
-  updateTodo(index, todo){
+  updateTodo(todo){
     let text = todo.text
-    this.todosService.updateTodo(index, text)
-    todo.isEdit = false
+    this.todosService.updateTodo(todo.index, text)
+    todo.editing = false
   }
 
 
   isEdit(t){
-    t.isEdit = true 
+    t.editing = true 
   }
   
 }
