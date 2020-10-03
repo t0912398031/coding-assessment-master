@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener } from '@angular/core';
 import { TodosService } from './todos/services/todos.service';
 import { FormControl } from '@angular/forms';
 import { ITodo } from './todos/interfaces';
@@ -28,6 +28,7 @@ export class AppComponent {
   }
   
   addTodo() {
+    if(!this.todo.text) return
     this.todosService.addTodo(this.todo.text)
     this.todo.text = ''
   }
@@ -47,4 +48,17 @@ export class AppComponent {
     this.todosService.clearCompleted()
   }
 
+  editing = false
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    if (event.target == document.getElementById("inputfield")){
+      this.editing = true
+      // console.log('inside')
+    } else{
+      // console.log('outside')
+      
+      this.editing = false
+      this.addTodo()
+    }
+  }
 }

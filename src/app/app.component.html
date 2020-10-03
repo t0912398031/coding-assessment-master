@@ -2,7 +2,7 @@
   <header class="header">
     <h1>todos</h1>
     <form enctype="application/x-www-form-urlencoded" role="form" novalidate>
-      <input class="new-todo" placeholder="What needs to be done" autofocus (keyup.enter)="addTodo()" [(ngModel)]="todo.text" name="text"> 
+      <input class="new-todo" id="inputfield" placeholder="What needs to be done" autofocus (keyup.enter)="addTodo()" [(ngModel)]="todo.text" name="text"> 
     </form>
   </header>
   <section class="main">
